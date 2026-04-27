@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation — Lombard Bug Bounty</title>
+  <meta name="description" content="Lombard Bug Bounty Documentation — technical architecture, protocol design, and research resources.">
+  <link rel="stylesheet" href="13svqqn_tv061.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #fff; font-family: Rubik, ui-sans-serif, system-ui, sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .nav-link { color: #B5B8BF; padding: 8px 14px; border-radius: 6px; font-size: 14px; font-weight: 500; transition: color .2s, background .2s; }
+    .nav-link:hover { color: #fff; background: #1B1B1B; }
+    .nav-link.active { color: #67CCCD; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .card { background: #1B1B1B; border: 1px solid #374151; border-radius: 8px; padding: 24px; }
+    .section-title { font-size: 22px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #fff; }
+    .prose p { margin-bottom: 16px; color: #C4C7CC; line-height: 1.7; }
+    .prose ul { margin-bottom: 16px; padding-left: 24px; color: #C4C7CC; }
+    .prose ol { margin-bottom: 16px; padding-left: 24px; color: #C4C7CC; }
+    .prose li { margin-bottom: 8px; }
+    .prose strong { color: #fff; }
+    .prose a { color: #67CCCD; text-decoration: underline; }
+    .prose h4 { color: #fff; margin-bottom: 12px; margin-top: 20px; font-size: 16px; }
+    .text-cyan { color: #67CCCD; }
+    .text-muted { color: #B5B8BF; }
+    section { margin-bottom: 64px; }
+    .divider { border: none; border-top: 1px solid #374151; margin: 32px 0; }
+    .doc-link { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; background: #1B1B1B; border: 1px solid #374151; border-radius: 8px; transition: border-color .2s; margin-bottom: 10px; }
+    .doc-link:hover { border-color: #67CCCD; }
+    .arch-box { background: #121212; border: 1px solid #374151; border-radius: 8px; padding: 20px; }
+    .arch-layer { background: #1B1B1B; border: 1px solid #374151; border-radius: 6px; padding: 14px 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: #1B1B1B; padding: 2px 8px; border-radius: 4px; font-size: 13px; color: #67CCCD; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header style="background:#000;border-bottom:1px solid #374151;position:sticky;top:0;z-index:50;">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:16px;padding-bottom:16px;">
+    <a href="index.html" style="display:flex;align-items:center;gap:10px;">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#4F46E5"/>
+        <path d="M8 22L14 10L20 18L24 14" stroke="#A4FEFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="14" r="2.5" fill="#F01580"/>
+      </svg>
+      <span style="color:#fff;font-size:20px;font-weight:700;letter-spacing:-0.5px;">Lombard <span class="text-cyan">Bug Bounty</span></span>
+    </a>
+    <nav style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
+      <a href="index.html" class="nav-link">Overview</a>
+      <a href="mainnet.html" class="nav-link">Mainnet</a>
+      <a href="testnet.html" class="nav-link">Testnet</a>
+      <a href="documentation.html" class="nav-link active">Documentation</a>
+      <a href="smart-contracts.html" class="nav-link">Smart Contracts</a>
+      <a href="rewards.html" class="nav-link">Rewards</a>
+      <a href="https://bugs.immunefi.com/dashboard/new-submission" target="_blank" rel="noopener noreferrer"
+        style="background:#4F46E5;color:#fff;padding:8px 18px;border-radius:6px;font-size:14px;font-weight:600;margin-left:8px;">Submit Bug</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<div style="background:linear-gradient(135deg,#0a0a14 0%,#0d1a10 100%);border-bottom:1px solid #374151;padding:48px 0 40px;">
+  <div class="container">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+      <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="16" width="16" style="color:#67CCCD;" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+      <span style="color:#67CCCD;font-size:14px;font-weight:500;">Technical Documentation</span>
+    </div>
+    <h1 style="font-size:36px;font-weight:700;margin-bottom:12px;">Documentation</h1>
+    <p style="color:#C4C7CC;font-size:16px;max-width:620px;">
+      Technical architecture, protocol design, and research resources to help security researchers understand the Lombard protocol and identify potential vulnerabilities.
+    </p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div style="padding:56px 0;">
+  <div class="container">
+
+    <!-- PROTOCOL OVERVIEW -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"></path></svg>
+        Protocol Architecture Overview
+      </div>
+
+      <div class="card prose" style="margin-bottom:24px;">
+        <p>
+          Lombard Finance operates a multi-layered architecture connecting Bitcoin's security to Ethereum's programmability through the Babylon staking protocol. Understanding this architecture is essential for identifying cross-layer vulnerabilities that could affect the integrity of the LBTC peg and user funds.
+        </p>
+        <p>
+          At the core, Lombard's system consists of three primary layers: the <strong>Bitcoin staking layer</strong> (via Babylon), the <strong>Lombard infrastructure layer</strong> (validator consortium and smart contracts), and the <strong>DeFi application layer</strong> (LBTC token and integrations). Each layer presents distinct attack surfaces.
+        </p>
+      </div>
+
+      <!-- Architecture diagram -->
+      <div class="arch-box">
+        <p style="font-size:13px;font-weight:600;color:#595959;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Protocol Layers</p>
+        <div class="arch-layer" style="border-color:#F01580;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#F01580;flex-shrink:0;"></div>
+          <div>
+            <p style="font-weight:600;font-size:14px;">DeFi Application Layer</p>
+            <p class="text-muted" style="font-size:12px;">LBTC ERC-20 · DeFi integrations · Lending/Borrowing · DEX Liquidity</p>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:center;margin:4px 0;">
+          <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="20" width="20" style="color:#374151;" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+        <div class="arch-layer" style="border-color:#FCBB00;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#FCBB00;flex-shrink:0;"></div>
+          <div>
+            <p style="font-weight:600;font-size:14px;">Lombard Infrastructure Layer</p>
+            <p class="text-muted" style="font-size:12px;">Validator Consortium · Minting/Redemption · Cross-chain Bridge · Governance</p>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:center;margin:4px 0;">
+          <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="20" width="20" style="color:#374151;" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+        <div class="arch-layer" style="border-color:#67CCCD;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#67CCCD;flex-shrink:0;"></div>
+          <div>
+            <p style="font-weight:600;font-size:14px;">Bitcoin Staking Layer</p>
+            <p class="text-muted" style="font-size:12px;">Babylon Protocol · BTC Staking · Finality Providers · Bitcoin Consensus</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- KEY COMPONENTS -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        Key Protocol Components
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:40px;height:40px;border-radius:8px;background:#121212;border:1px solid #374151;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:18px;">🏗️</span>
+            </div>
+            <p style="font-weight:600;">LBTC Token</p>
+          </div>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">Yield-bearing ERC-20 token backed 1:1 by BTC staked on Babylon. Implements cross-chain transfer functionality using LayerZero OFT standard. Key functions: <code>mint</code>, <code>burn</code>, <code>transfer</code>.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:40px;height:40px;border-radius:8px;background:#121212;border:1px solid #374151;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:18px;">🔐</span>
+            </div>
+            <p style="font-weight:600;">Validator Consortium</p>
+          </div>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">Multi-signature mechanism securing LBTC minting. A threshold of validators must sign off on each mint operation. Compromising the consortium is the highest-severity attack vector.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:40px;height:40px;border-radius:8px;background:#121212;border:1px solid #374151;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:18px;">⛓️</span>
+            </div>
+            <p style="font-weight:600;">Cross-Chain Bridge</p>
+          </div>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">Uses LayerZero for cross-chain LBTC transfers. Bridge logic involves lock/unlock and mint/burn mechanisms across chains. Message validation and replay protection are critical security areas.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:40px;height:40px;border-radius:8px;background:#121212;border:1px solid #374151;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:18px;">🔄</span>
+            </div>
+            <p style="font-weight:600;">Redemption Flow</p>
+          </div>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">Users burn LBTC and receive BTC on the Bitcoin network. The redemption process involves off-chain BTC unstaking from Babylon and on-chain LBTC burning. Timing and atomicity are critical.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:40px;height:40px;border-radius:8px;background:#121212;border:1px solid #374151;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:18px;">📊</span>
+            </div>
+            <p style="font-weight:600;">Yield Distribution</p>
+          </div>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">Babylon staking rewards accrue to LBTC holders through rebasing or yield distribution mechanisms. Incorrect accounting here could lead to yield theft or dilution of the BTC backing.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:40px;height:40px;border-radius:8px;background:#121212;border:1px solid #374151;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:18px;">🏛️</span>
+            </div>
+            <p style="font-weight:600;">Governance &amp; Access Control</p>
+          </div>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">Role-based access control using OpenZeppelin's <code>AccessControl</code>. Admin roles control contract upgrades, fee parameters, and emergency pausing. Role escalation bugs are high severity.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- SECURITY FOCUS AREAS -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        Security Focus Areas for Researchers
+      </div>
+
+      <div class="card prose" style="margin-bottom:20px;">
+        <p>The following areas represent the highest-priority security concerns for the Lombard protocol. Security researchers are encouraged to focus their efforts on these critical components.</p>
+        <h4>1. LBTC Minting Integrity</h4>
+        <p>Any bypass of the validator consortium that allows unauthorized LBTC minting is the highest severity issue in the protocol. This includes signature verification bypasses, replay attacks on mint messages, and any logic that allows minting LBTC without a corresponding BTC deposit.</p>
+        <h4>2. Cross-Chain Bridge Security</h4>
+        <p>Bridge vulnerabilities could allow an attacker to mint LBTC on the destination chain without burning equivalent LBTC on the source chain. Focus areas include message replay, chain ID confusion, and message validation logic in LayerZero endpoint handlers.</p>
+        <h4>3. Redemption Atomicity</h4>
+        <p>Attacks that allow burning LBTC without triggering the corresponding BTC unstaking, or that allow claiming BTC redemptions multiple times, represent critical vulnerabilities. Race conditions and reentrancy in the redemption flow are of particular interest.</p>
+        <h4>4. Access Control and Privilege Escalation</h4>
+        <p>Unauthorized access to admin functions could allow an attacker to drain funds, upgrade contracts to malicious versions, or pause the protocol indefinitely. Review role management logic carefully for privilege escalation paths.</p>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- DOCUMENTATION LINKS -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+        External Documentation &amp; Resources
+      </div>
+
+      <a href="https://github.com/lombard-finance/evm-smart-contracts" target="_blank" rel="noopener noreferrer" class="doc-link" onmouseover="this.style.borderColor='#67CCCD'" onmouseout="this.style.borderColor='#374151'">
+        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" style="color:#67CCCD;flex-shrink:0;margin-top:2px;" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"></path></svg>
+        <div>
+          <p style="font-weight:600;margin-bottom:4px;">EVM Smart Contracts Repository ↗</p>
+          <p class="text-muted" style="font-size:13px;">Full source code for all Lombard EVM contracts. Browse contract implementations, read inline documentation, and review deployment scripts.</p>
+        </div>
+      </a>
+
+      <a href="https://github.com/lombard-finance/evm-smart-contracts/tree/main/docs/audit" target="_blank" rel="noopener noreferrer" class="doc-link" onmouseover="this.style.borderColor='#67CCCD'" onmouseout="this.style.borderColor='#374151'">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" style="color:#67CCCD;flex-shrink:0;margin-top:2px;" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <div>
+          <p style="font-weight:600;margin-bottom:4px;">Audit Reports ↗</p>
+          <p class="text-muted" style="font-size:13px;">All completed security audit reports. Issues found in previous audits are not eligible for rewards. Review these to understand the existing security landscape.</p>
+        </div>
+      </a>
+
+      <a href="https://www.lombard.finance/" target="_blank" rel="noopener noreferrer" class="doc-link" onmouseover="this.style.borderColor='#67CCCD'" onmouseout="this.style.borderColor='#374151'">
+        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" style="color:#67CCCD;flex-shrink:0;margin-top:2px;" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1Zm3.241 10.5v-.001c-.1-2.708-.992-4.904-1.89-6.452a13.919 13.919 0 0 0-1.304-1.88L12 3.11l-.047.059c-.354.425-.828 1.06-1.304 1.88-.898 1.547-1.79 3.743-1.89 6.451Zm-12.728 0h4.745c.1-3.037 1.1-5.49 2.093-7.204.39-.672.78-1.233 1.119-1.673C6.11 3.329 2.746 7 2.513 11.5Zm18.974 0C21.254 7 17.89 3.329 13.53 2.623c.339.44.729 1.001 1.119 1.673.993 1.714 1.993 4.167 2.093 7.204Z"/></svg>
+        <div>
+          <p style="font-weight:600;margin-bottom:4px;">Official Lombard Documentation ↗</p>
+          <p class="text-muted" style="font-size:13px;">Product documentation, LBTC mechanics, integration guides, and ecosystem information at lombard.finance.</p>
+        </div>
+      </a>
+
+      <a href="https://docs.babylonchain.io/" target="_blank" rel="noopener noreferrer" class="doc-link" onmouseover="this.style.borderColor='#67CCCD'" onmouseout="this.style.borderColor='#374151'">
+        <div style="width:20px;height:20px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:18px;">₿</span>
+        </div>
+        <div>
+          <p style="font-weight:600;margin-bottom:4px;">Babylon Protocol Documentation ↗</p>
+          <p class="text-muted" style="font-size:13px;">Technical documentation for the Babylon Bitcoin staking protocol that underpins LBTC's BTC backing. Understanding Babylon is essential for evaluating the staking layer.</p>
+        </div>
+      </a>
+    </section>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:#000;border-top:1px solid #374151;margin-top:0;">
+  <div class="container" style="padding-top:48px;padding-bottom:32px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#4F46E5"/><path d="M8 22L14 10L20 18L24 14" stroke="#A4FEFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="14" r="2.5" fill="#F01580"/></svg>
+          <span style="color:#fff;font-weight:700;font-size:16px;">Lombard Bug Bounty</span>
+        </div>
+        <p style="color:#B5B8BF;font-size:14px;line-height:1.6;">Securing the future of Bitcoin DeFi. Report vulnerabilities, earn rewards, and help protect the Lombard ecosystem.</p>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">Program</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="index.html" style="color:#B5B8BF;font-size:14px;">Overview</a></li>
+          <li><a href="mainnet.html" style="color:#B5B8BF;font-size:14px;">Mainnet Scope</a></li>
+          <li><a href="testnet.html" style="color:#B5B8BF;font-size:14px;">Testnet</a></li>
+          <li><a href="rewards.html" style="color:#B5B8BF;font-size:14px;">Rewards</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">Technical</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="documentation.html" style="color:#67CCCD;font-size:14px;">Documentation</a></li>
+          <li><a href="smart-contracts.html" style="color:#B5B8BF;font-size:14px;">Smart Contracts</a></li>
+          <li><a href="https://github.com/lombard-finance/evm-smart-contracts" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">GitHub ↗</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">Contact</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="https://immunefi.com/bug-bounty/lombard-finance/" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">Immunefi Program ↗</a></li>
+          <li><a href="https://twitter.com/Lombard_Finance" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">Twitter / X ↗</a></li>
+          <li><a href="https://discord.gg/lombard" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">Discord ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid #374151;padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <span style="color:#595959;font-size:13px;">© 2024–2026 Lombard Finance. All rights reserved.</span>
+      <span style="color:#595959;font-size:13px;">Maximum Bounty: <span style="color:#67CCCD;font-weight:600;">$250,000</span></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

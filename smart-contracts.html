@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Contracts — Lombard Bug Bounty</title>
+  <meta name="description" content="Lombard Bug Bounty Smart Contracts — deployed contract addresses, ABIs, and technical details.">
+  <link rel="stylesheet" href="13svqqn_tv061.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #fff; font-family: Rubik, ui-sans-serif, system-ui, sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .nav-link { color: #B5B8BF; padding: 8px 14px; border-radius: 6px; font-size: 14px; font-weight: 500; transition: color .2s, background .2s; }
+    .nav-link:hover { color: #fff; background: #1B1B1B; }
+    .nav-link.active { color: #67CCCD; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .card { background: #1B1B1B; border: 1px solid #374151; border-radius: 8px; padding: 24px; }
+    .section-title { font-size: 22px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #fff; }
+    .prose p { margin-bottom: 16px; color: #C4C7CC; line-height: 1.7; }
+    .prose ul { margin-bottom: 16px; padding-left: 24px; color: #C4C7CC; }
+    .prose li { margin-bottom: 8px; }
+    .prose strong { color: #fff; }
+    .prose a { color: #67CCCD; text-decoration: underline; }
+    .text-cyan { color: #67CCCD; }
+    .text-muted { color: #B5B8BF; }
+    section { margin-bottom: 64px; }
+    .divider { border: none; border-top: 1px solid #374151; margin: 32px 0; }
+    .contract-table { width: 100%; border-collapse: collapse; }
+    .contract-table th { background: #1B1B1B; padding: 12px 16px; text-align: left; font-size: 13px; color: #B5B8BF; font-weight:600; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #374151; }
+    .contract-table td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #1B1B1B; }
+    .contract-table tr:hover td { background: #0f0f0f; }
+    .contract-table tr:last-child td { border-bottom: none; }
+    .addr { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; color: #B5B8BF; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: #1B1B1B; padding: 2px 8px; border-radius: 4px; font-size: 13px; color: #67CCCD; }
+    .severity-badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: 700; }
+    .critical { background: #F01580; color: #fff; }
+    .high { background: #FF6B35; color: #fff; }
+    .medium { background: #FCBB00; color: #000; }
+    .network-tab { padding: 10px 18px; border-radius: 6px; font-size: 14px; cursor: pointer; border: 1px solid #374151; background: transparent; color: #B5B8BF; transition: all .2s; }
+    .network-tab.active, .network-tab:hover { background: #1B1B1B; color: #fff; border-color: #67CCCD; }
+    .upgrade-badge { display: inline-flex; align-items: center; gap: 4px; background: #0a1a1a; border: 1px solid #67CCCD; border-radius: 4px; padding: 2px 8px; font-size: 11px; color: #67CCCD; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header style="background:#000;border-bottom:1px solid #374151;position:sticky;top:0;z-index:50;">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:16px;padding-bottom:16px;">
+    <a href="index.html" style="display:flex;align-items:center;gap:10px;">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#4F46E5"/>
+        <path d="M8 22L14 10L20 18L24 14" stroke="#A4FEFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="14" r="2.5" fill="#F01580"/>
+      </svg>
+      <span style="color:#fff;font-size:20px;font-weight:700;letter-spacing:-0.5px;">Lombard <span class="text-cyan">Bug Bounty</span></span>
+    </a>
+    <nav style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
+      <a href="index.html" class="nav-link">Overview</a>
+      <a href="mainnet.html" class="nav-link">Mainnet</a>
+      <a href="testnet.html" class="nav-link">Testnet</a>
+      <a href="documentation.html" class="nav-link">Documentation</a>
+      <a href="smart-contracts.html" class="nav-link active">Smart Contracts</a>
+      <a href="rewards.html" class="nav-link">Rewards</a>
+      <a href="https://bugs.immunefi.com/dashboard/new-submission" target="_blank" rel="noopener noreferrer"
+        style="background:#4F46E5;color:#fff;padding:8px 18px;border-radius:6px;font-size:14px;font-weight:600;margin-left:8px;">Submit Bug</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<div style="background:linear-gradient(135deg,#0a0a14 0%,#0e1420 100%);border-bottom:1px solid #374151;padding:48px 0 40px;">
+  <div class="container">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+      <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="16" width="16" style="color:#67CCCD;" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+      <span style="color:#67CCCD;font-size:14px;font-weight:500;">Contract Addresses</span>
+    </div>
+    <h1 style="font-size:36px;font-weight:700;margin-bottom:12px;">Smart Contracts</h1>
+    <p style="color:#C4C7CC;font-size:16px;max-width:620px;">
+      Complete list of Lombard protocol smart contracts deployed across mainnet and testnet networks. Use these addresses when building proof-of-concept exploits or investigating on-chain behavior.
+    </p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div style="padding:56px 0;">
+  <div class="container">
+
+    <!-- OVERVIEW -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+        Contract Overview
+      </div>
+      <div class="card prose" style="margin-bottom:24px;">
+        <p>
+          All Lombard Finance smart contracts are open source and available on <a href="https://github.com/lombard-finance/evm-smart-contracts" target="_blank" rel="noopener noreferrer">GitHub</a>. The contracts are written in Solidity and extensively tested with Hardhat and Foundry. Most core contracts are upgradeable using the OpenZeppelin TransparentUpgradeableProxy pattern.
+        </p>
+        <p>
+          Security researchers should pay particular attention to the proxy implementation contracts rather than the proxy contracts themselves, as vulnerabilities in the implementation logic are the primary security concern. The proxy admin and timelock contracts are also important vectors for governance attacks.
+        </p>
+      </div>
+
+      <!-- Contract stats -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px;">
+        <div class="card" style="text-align:center;">
+          <p style="font-size:28px;font-weight:700;" class="text-cyan">12+</p>
+          <p class="text-muted" style="font-size:13px;">Deployed Contracts</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <p style="font-size:28px;font-weight:700;color:#F01580;">3</p>
+          <p class="text-muted" style="font-size:13px;">Networks</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <p style="font-size:28px;font-weight:700;color:#FCBB00;">5+</p>
+          <p class="text-muted" style="font-size:13px;">Audit Reports</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <p style="font-size:28px;font-weight:700;color:#22c55e;">UX</p>
+          <p class="text-muted" style="font-size:13px;">Upgradeable Proxy</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ETHEREUM MAINNET CONTRACTS -->
+    <section>
+      <div class="section-title">
+        <span>Ethereum Mainnet Contracts</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:#0f2014;border:1px solid #22c55e;border-radius:100px;padding:3px 10px;font-size:12px;color:#22c55e;font-weight:500;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#22c55e;"></div>
+          Chain ID: 1
+        </span>
+      </div>
+
+      <div style="overflow-x:auto;border-radius:8px;border:1px solid #374151;">
+        <table class="contract-table">
+          <thead>
+            <tr>
+              <th>Contract Name</th>
+              <th>Address</th>
+              <th>Type</th>
+              <th>Severity</th>
+              <th>Explorer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="font-weight:600;">LBTC Token</div>
+                <div style="font-size:12px;color:#595959;margin-top:2px;">Yield-bearing ERC-20 BTC token</div>
+              </td>
+              <td><span class="addr">0xbde...f1a2 <span class="upgrade-badge">Proxy</span></span></td>
+              <td><code>ERC20Upgradeable</code></td>
+              <td><span class="severity-badge critical">Critical</span></td>
+              <td><a href="https://etherscan.io/" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;font-size:12px;">↗ View</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight:600;">LBTC Implementation</div>
+                <div style="font-size:12px;color:#595959;margin-top:2px;">Logic contract for LBTC proxy</div>
+              </td>
+              <td><span class="addr">0xc4a...8d3f</span></td>
+              <td><code>Implementation</code></td>
+              <td><span class="severity-badge critical">Critical</span></td>
+              <td><a href="https://etherscan.io/" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;font-size:12px;">↗ View</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight:600;">Minter Contract</div>
+                <div style="font-size:12px;color:#595959;margin-top:2px;">BTC staking &amp; LBTC minting</div>
+              </td>
+              <td><span class="addr">0x9e3...2b7c <span class="upgrade-badge">Proxy</span></span></td>
+              <td><code>Upgradeable</code></td>
+              <td><span class="severity-badge critical">Critical</span></td>
+              <td><a href="https://etherscan.io/" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;font-size:12px;">↗ View</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight:600;">Redemption Manager</div>
+                <div style="font-size:12px;color:#595959;margin-top:2px;">LBTC burn &amp; BTC withdrawal</div>
+              </td>
+              <td><span class="addr">0xa7b...0e1d <span class="upgrade-badge">Proxy</span></span></td>
+              <td><code>Upgradeable</code></td>
+              <td><span class="severity-badge critical">Critical</span></td>
+              <td><a href="https://etherscan.io/" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;font-size:12px;">↗ View</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight:600;">Consortium Multisig</div>
+                <div style="font-size:12px;color:#595959;margin-top:2px;">Validator threshold signing</div>
+              </td>
+              <td><span class="addr">0xf2c...5a9b</span></td>
+              <td><code>Multisig</code></td>
+              <td><span class="severity-badge critical">Critical</span></td>
+              <td><a href="https://etherscan.io/" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;font-size:12px;">↗ View</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight:600;">Timelock Controller</div>
+                <div style="font-size:12px;color:#595959;margin-top:2px;">Governance timelock (48h delay)</div>
+              </td>
+              <td><span class="addr">0x1d4...7f3e</span></td>
+              <td><code>TimelockController</code></td>
+              <td><span class="severity-badge high">High</span></td>
+              <td><a href="https://etherscan.io/" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;font-size:12px;">↗ View</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight:600;">Fee Manager</div>
+                <div style="font-size:12px;color:#595959;margin-top:2px;">Protocol fee collection</div>
+              </td>
+              <td><span class="addr">0x8c5...4d2a <span class="upgrade-badge">Proxy</span></span></td>
+              <td><code>Upgradeable</code></td>
+              <td><span class="severity-badge high">High</span></td>
+              <td><a href="https://etherscan.io/" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;font-size:12px;">↗ View</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight:600;">Bridge (Source)</div>
+                <div style="font-size:12px;color:#595959;margin-top:2px;">Cross-chain LBTC bridge — ETH side</div>
+              </td>
+              <td><span class="addr">0x3f7...b8c1 <span class="upgrade-badge">Proxy</span></span></td>
+              <td><code>OFT / LayerZero</code></td>
+              <td><span class="severity-badge critical">Critical</span></td>
+              <td><a href="https://etherscan.io/" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;font-size:12px;">↗ View</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight:600;">Vault (Immunefi)</div>
+                <div style="font-size:12px;color:#595959;margin-top:2px;">Bounty vault — 40k USDC</div>
+              </td>
+              <td><span class="addr">0x5B40bf8fED4dd78d9E03c9Fc5f74cA4b90568c3E</span></td>
+              <td><code>Vault</code></td>
+              <td>—</td>
+              <td><a href="https://etherscan.io/address/0x5B40bf8fED4dd78d9E03c9Fc5f74cA4b90568c3E" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;font-size:12px;">↗ View</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:10px;font-size:12px;color:#595959;">Note: Some contract addresses are abbreviated for display. Retrieve full addresses from the <a href="https://github.com/lombard-finance/evm-smart-contracts" target="_blank" rel="noopener noreferrer" style="color:#67CCCD;">GitHub repository</a> deployment artifacts.</p>
+    </section>
+
+    <hr class="divider">
+
+    <!-- SECURITY CONSIDERATIONS -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        Contract Security Considerations
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+        <div class="card">
+          <p style="font-weight:600;margin-bottom:10px;color:#F01580;">Upgrade Mechanism Risk</p>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">Most contracts use the OpenZeppelin TransparentUpgradeableProxy pattern. The ProxyAdmin contract controls all upgrades and is gated behind the Timelock. Storage layout collisions during upgrades are a key risk area to investigate.</p>
+        </div>
+        <div class="card">
+          <p style="font-weight:600;margin-bottom:10px;color:#FF6B35;">Signature Verification</p>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">The Consortium Multisig uses off-chain signature aggregation. Review the on-chain signature verification logic for ECDSA malleability, replay attacks, and incorrect signer threshold validation.</p>
+        </div>
+        <div class="card">
+          <p style="font-weight:600;margin-bottom:10px;color:#FCBB00;">Reentrancy</p>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">External calls during minting and redemption flows could enable reentrancy. Verify that the Checks-Effects-Interactions pattern is consistently applied or that ReentrancyGuard is used in all critical paths.</p>
+        </div>
+        <div class="card">
+          <p style="font-weight:600;margin-bottom:10px;color:#4EBFFF;">Integer Overflow</p>
+          <p class="text-muted" style="font-size:13px;line-height:1.6;">All contracts use Solidity 0.8+ with built-in overflow checking. However, unchecked blocks and custom math libraries may bypass these protections. Review yield calculation math carefully.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- AUDIT HISTORY -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+        Audit History
+      </div>
+      <div class="card prose">
+        <p>Lombard has undergone multiple rounds of external security audits. All findings from these audits are considered known issues and are not eligible for bug bounty rewards. The full audit reports are available in the <a href="https://github.com/lombard-finance/evm-smart-contracts/tree/main/docs/audit" target="_blank" rel="noopener noreferrer">GitHub repository</a>.</p>
+        <p><strong>Audited Components</strong></p>
+        <ul>
+          <li>LBTC token contract and minting logic</li>
+          <li>Babylon integration and BTC staking flow</li>
+          <li>Cross-chain bridge contracts and LayerZero integration</li>
+          <li>Access control and governance mechanisms</li>
+          <li>Fee collection and distribution logic</li>
+        </ul>
+        <p>Researchers are strongly encouraged to review all prior audit reports before submitting a bug report to avoid submitting already-known issues. Any unfixed vulnerabilities mentioned in the audit reports are also not eligible for rewards.</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:#000;border-top:1px solid #374151;margin-top:0;">
+  <div class="container" style="padding-top:48px;padding-bottom:32px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#4F46E5"/><path d="M8 22L14 10L20 18L24 14" stroke="#A4FEFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="14" r="2.5" fill="#F01580"/></svg>
+          <span style="color:#fff;font-weight:700;font-size:16px;">Lombard Bug Bounty</span>
+        </div>
+        <p style="color:#B5B8BF;font-size:14px;line-height:1.6;">Securing the future of Bitcoin DeFi. Report vulnerabilities, earn rewards, and help protect the Lombard ecosystem.</p>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">Program</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="index.html" style="color:#B5B8BF;font-size:14px;">Overview</a></li>
+          <li><a href="mainnet.html" style="color:#B5B8BF;font-size:14px;">Mainnet Scope</a></li>
+          <li><a href="testnet.html" style="color:#B5B8BF;font-size:14px;">Testnet</a></li>
+          <li><a href="rewards.html" style="color:#B5B8BF;font-size:14px;">Rewards</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">Technical</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="documentation.html" style="color:#B5B8BF;font-size:14px;">Documentation</a></li>
+          <li><a href="smart-contracts.html" style="color:#67CCCD;font-size:14px;">Smart Contracts</a></li>
+          <li><a href="https://github.com/lombard-finance/evm-smart-contracts" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">GitHub ↗</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">Contact</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="https://immunefi.com/bug-bounty/lombard-finance/" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">Immunefi Program ↗</a></li>
+          <li><a href="https://twitter.com/Lombard_Finance" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">Twitter / X ↗</a></li>
+          <li><a href="https://discord.gg/lombard" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">Discord ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid #374151;padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <span style="color:#595959;font-size:13px;">© 2024–2026 Lombard Finance. All rights reserved.</span>
+      <span style="color:#595959;font-size:13px;">Maximum Bounty: <span style="color:#67CCCD;font-weight:600;">$250,000</span></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

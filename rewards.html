@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rewards — Lombard Bug Bounty</title>
+  <meta name="description" content="Lombard Bug Bounty Rewards — reward tiers, payment details, and calculation methodology.">
+  <link rel="stylesheet" href="13svqqn_tv061.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #fff; font-family: Rubik, ui-sans-serif, system-ui, sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    .nav-link { color: #B5B8BF; padding: 8px 14px; border-radius: 6px; font-size: 14px; font-weight: 500; transition: color .2s, background .2s; }
+    .nav-link:hover { color: #fff; background: #1B1B1B; }
+    .nav-link.active { color: #67CCCD; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .card { background: #1B1B1B; border: 1px solid #374151; border-radius: 8px; padding: 24px; }
+    .section-title { font-size: 22px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #fff; }
+    .prose p { margin-bottom: 16px; color: #C4C7CC; line-height: 1.7; }
+    .prose ul { margin-bottom: 16px; padding-left: 24px; color: #C4C7CC; }
+    .prose li { margin-bottom: 8px; }
+    .prose strong { color: #fff; }
+    .prose a { color: #67CCCD; text-decoration: underline; }
+    .text-cyan { color: #67CCCD; }
+    .text-muted { color: #B5B8BF; }
+    section { margin-bottom: 64px; }
+    .divider { border: none; border-top: 1px solid #374151; margin: 32px 0; }
+    .reward-card { border-radius: 8px; overflow: hidden; border: 2px solid; }
+    .reward-header { padding: 8px; text-align: center; font-weight: 700; font-size: 15px; }
+    .reward-body { padding: 20px; background: #1B1B1B; }
+    .reward-amount { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+    .reward-range { font-size: 14px; color: #B5B8BF; margin-bottom: 16px; }
+    .impact-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+    .impact-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+    .reward-footer { background: #121212; padding: 8px; text-align: center; font-size: 12px; color: #B5B8BF; }
+    .faq-item { border: 1px solid #374151; border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+    .faq-q { padding: 16px 20px; font-weight: 600; background: #1B1B1B; cursor: pointer; }
+    .faq-a { padding: 16px 20px; background: #121212; color: #C4C7CC; font-size: 14px; line-height: 1.7; }
+    .timeline-step { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid #374151; }
+    .timeline-step:last-child { border-bottom: none; }
+    .timeline-icon { width: 40px; height: 40px; border-radius: 8px; background: #1B1B1B; border: 1px solid #374151; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header style="background:#000;border-bottom:1px solid #374151;position:sticky;top:0;z-index:50;">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:16px;padding-bottom:16px;">
+    <a href="index.html" style="display:flex;align-items:center;gap:10px;">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#4F46E5"/>
+        <path d="M8 22L14 10L20 18L24 14" stroke="#A4FEFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="14" r="2.5" fill="#F01580"/>
+      </svg>
+      <span style="color:#fff;font-size:20px;font-weight:700;letter-spacing:-0.5px;">Lombard <span class="text-cyan">Bug Bounty</span></span>
+    </a>
+    <nav style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
+      <a href="index.html" class="nav-link">Overview</a>
+      <a href="mainnet.html" class="nav-link">Mainnet</a>
+      <a href="testnet.html" class="nav-link">Testnet</a>
+      <a href="documentation.html" class="nav-link">Documentation</a>
+      <a href="smart-contracts.html" class="nav-link">Smart Contracts</a>
+      <a href="rewards.html" class="nav-link active">Rewards</a>
+      <a href="https://bugs.immunefi.com/dashboard/new-submission" target="_blank" rel="noopener noreferrer"
+        style="background:#4F46E5;color:#fff;padding:8px 18px;border-radius:6px;font-size:14px;font-weight:600;margin-left:8px;">Submit Bug</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<div style="background:linear-gradient(135deg,#0a0a14 0%,#1a0a28 100%);border-bottom:1px solid #374151;padding:48px 0 40px;">
+  <div class="container">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+      <svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" height="16" width="16" style="color:#67CCCD;" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path></svg>
+      <span style="color:#67CCCD;font-size:14px;font-weight:500;">Reward Structure</span>
+    </div>
+    <h1 style="font-size:36px;font-weight:700;margin-bottom:12px;">Rewards</h1>
+    <p style="color:#C4C7CC;font-size:16px;max-width:620px;">
+      Lombard provides rewards in <strong>USDC on Ethereum</strong>, denominated in USD. Maximum reward is <strong>$250,000</strong> for critical smart contract vulnerabilities. Learn how rewards are calculated and how to maximize your payout.
+    </p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:24px;">
+      <div style="background:#1B1B1B;border:1px solid #374151;border-radius:8px;padding:14px 20px;">
+        <p class="text-muted" style="font-size:13px;">Maximum Reward</p>
+        <p style="font-size:26px;font-weight:700;" class="text-cyan">$250,000</p>
+      </div>
+      <div style="background:#1B1B1B;border:1px solid #374151;border-radius:8px;padding:14px 20px;">
+        <p class="text-muted" style="font-size:13px;">Minimum Critical</p>
+        <p style="font-size:26px;font-weight:700;color:#F01580;">$50,000</p>
+      </div>
+      <div style="background:#1B1B1B;border:1px solid #374151;border-radius:8px;padding:14px 20px;">
+        <p class="text-muted" style="font-size:13px;">Payment Token</p>
+        <p style="font-size:26px;font-weight:700;">USDC</p>
+      </div>
+      <div style="background:#1B1B1B;border:1px solid #374151;border-radius:8px;padding:14px 20px;">
+        <p class="text-muted" style="font-size:13px;">Payment Network</p>
+        <p style="font-size:26px;font-weight:700;">Ethereum</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div style="padding:56px 0;">
+  <div class="container">
+
+    <!-- REWARDS BY THREAT LEVEL -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path></svg>
+        Rewards by Threat Level
+      </div>
+
+      <!-- Smart Contracts -->
+      <div style="background:#374151;border-radius:6px 6px 0 0;padding:8px 16px;font-size:14px;font-weight:600;margin-bottom:0;">Smart Contract</div>
+      <div style="border:1px solid #374151;border-top:none;border-radius:0 0 8px 8px;padding:20px;background:#0a0a0a;margin-bottom:24px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;">
+          <div class="reward-card" style="border-color:#F01580;">
+            <div class="reward-header" style="background:#F01580;color:#fff;">Critical</div>
+            <div class="reward-body">
+              <div class="reward-amount" style="color:#F01580;">$250,000</div>
+              <div class="reward-range">Min: $50,000</div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#F01580;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Direct theft of funds</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#F01580;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Permanent fund freeze</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#F01580;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Unauthorized LBTC minting</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#F01580;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Protocol insolvency</span>
+              </div>
+            </div>
+            <div class="reward-footer">Primacy of Impact</div>
+          </div>
+          <div class="reward-card" style="border-color:#FF6B35;">
+            <div class="reward-header" style="background:#FF6B35;color:#fff;">High</div>
+            <div class="reward-body">
+              <div class="reward-amount" style="color:#FF6B35;">$50,000</div>
+              <div class="reward-range">Range: $10,000 – $50,000</div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#FF6B35;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Temporary fund freeze</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#FF6B35;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Theft of unclaimed yield</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#FF6B35;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Governance manipulation</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#FF6B35;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Unauthorized access control</span>
+              </div>
+            </div>
+            <div class="reward-footer">Primacy of Impact</div>
+          </div>
+          <div class="reward-card" style="border-color:#FCBB00;">
+            <div class="reward-header" style="background:#FCBB00;color:#000;">Medium</div>
+            <div class="reward-body">
+              <div class="reward-amount" style="color:#FCBB00;">$5,000</div>
+              <div class="reward-range">Flat rate</div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#FCBB00;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Smart contract errors</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#FCBB00;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Griefing attacks</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#FCBB00;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Temporary DoS</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#FCBB00;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Unbounded gas consumption</span>
+              </div>
+            </div>
+            <div class="reward-footer">Primacy of Rules</div>
+          </div>
+          <div class="reward-card" style="border-color:#4EBFFF;">
+            <div class="reward-header" style="background:#4EBFFF;color:#000;">Low</div>
+            <div class="reward-body">
+              <div class="reward-amount" style="color:#4EBFFF;">$2,000</div>
+              <div class="reward-range">Flat rate</div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#4EBFFF;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Minor contract bugs</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#4EBFFF;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Non-critical logic errors</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#4EBFFF;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Informational issues</span>
+              </div>
+              <div class="impact-item">
+                <div class="impact-dot" style="background:#4EBFFF;"></div>
+                <span style="font-size:13px;color:#C4C7CC;">Contract best practices</span>
+              </div>
+            </div>
+            <div class="reward-footer">Primacy of Rules</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- REWARD CALCULATION -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+        Reward Calculation Methodology
+      </div>
+
+      <div class="card prose" style="margin-bottom:20px;">
+        <p><strong>Critical Smart Contract Vulnerabilities</strong></p>
+        <p>
+          For critical smart contract bugs, the reward amount is <strong>10% of the funds directly at risk</strong>, up to a maximum of $250,000 USD. The calculation is based on the value of funds at risk at the time the bug report is submitted. A minimum reward of $50,000 is guaranteed to incentivize disclosure of critical vulnerabilities.
+        </p>
+        <p>Example: If a vulnerability puts $800,000 worth of LBTC at risk, the reward would be $80,000. If $3,000,000 is at risk, the reward is capped at $250,000.</p>
+        <p><strong>High Severity — Yield/Royalty Theft</strong></p>
+        <p>
+          High vulnerabilities involving theft or permanent freezing of unclaimed yield or royalties are rewarded between $10,000 and $50,000, depending on the funds at risk and capped at the maximum high reward.
+        </p>
+        <p><strong>High Severity — Temporary Freezing</strong></p>
+        <p>
+          For temporary fund freezing, the reward doubles from the full frozen value for every additional 24 hours that funds are frozen, up to the high reward cap. This incentivizes disclosure of freezing vulnerabilities proportional to their potential duration.
+        </p>
+        <p><strong>Repeatable Attack Limitations</strong></p>
+        <ul>
+          <li>For upgradeable/pausable contracts: only the initial attack is considered. The protocol can mitigate further exploitation by upgrading or pausing.</li>
+          <li>For non-upgradeable, non-pausable contracts: cumulative impact of repeatable attacks is considered, capped at 10% of total drained funds.</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- PAYMENT PROCESS -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        Payment Process
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="timeline-step">
+          <div class="timeline-icon">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="18" width="18" style="color:#67CCCD;" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 4l2 2 4-4"></path></svg>
+          </div>
+          <div>
+            <p style="font-weight:600;margin-bottom:4px;">Step 1 — Submit Your Report</p>
+            <p class="text-muted" style="font-size:14px;">Submit through the Immunefi dashboard with a working proof-of-concept. Reports without PoC will not be triaged. Include affected contract addresses and a clear description of the impact.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-icon">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="18" width="18" style="color:#67CCCD;" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+          </div>
+          <div>
+            <p style="font-weight:600;margin-bottom:4px;">Step 2 — Triage &amp; Validation (up to 5 business days)</p>
+            <p class="text-muted" style="font-size:14px;">Immunefi triages the report and forwards it to the Lombard team. The team validates the vulnerability, reproduces the PoC, and determines severity based on the Immunefi Vulnerability Severity Classification System V2.3.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-icon">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="18" width="18" style="color:#67CCCD;" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          </div>
+          <div>
+            <p style="font-weight:600;margin-bottom:4px;">Step 3 — KYC Verification</p>
+            <p class="text-muted" style="font-size:14px;">Once the vulnerability is confirmed, KYC information is collected. Required: full name, date of birth, proof of address (redacted bank statement or utility bill), and government-issued ID or passport copy.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-icon">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="18" width="18" style="color:#67CCCD;" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          </div>
+          <div>
+            <p style="font-weight:600;margin-bottom:4px;">Step 4 — Payment in USDC</p>
+            <p class="text-muted" style="font-size:14px;">Payouts are handled by the Lombard team and denominated in USD, paid in USDC on Ethereum. The amount is calculated based on the average price between CoinMarketCap and CoinGecko at submission time. No adjustments for liquidity availability.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- FAQ -->
+    <section>
+      <div class="section-title">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        Frequently Asked Questions
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Can I receive payment in cryptocurrency other than USDC?</div>
+        <div class="faq-a">No. All rewards are paid exclusively in USDC on Ethereum. The USD value is locked at the time of report submission based on the average price from CoinMarketCap and CoinGecko.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is the minimum reward I can receive?</div>
+        <div class="faq-a">The minimum reward for a critical smart contract vulnerability is $50,000. Medium severity is flat $5,000 and Low severity is flat $2,000. There is no minimum for High severity — it scales from $10,000 to $50,000 based on funds at risk.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How long does the payment process take?</div>
+        <div class="faq-a">After the vulnerability is confirmed and KYC is completed, the Lombard team processes payment within 30 days. Initial triage by Immunefi typically takes up to 5 business days. Complex or disputed cases may take longer.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens if someone else reports the same bug?</div>
+        <div class="faq-a">Only the first valid report of a given vulnerability is eligible for a reward. Duplicate reports submitted after the first valid submission will not be rewarded. Immunefi uses the timestamp of the first valid submission to determine priority.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is there a reward for reporting web or app vulnerabilities?</div>
+        <div class="faq-a">Yes. Critical web/app bugs that lead to a loss of funds without user interaction or to private key leakage are rewarded $30,000. Other critical web/app impacts receive $15,000. Lower severity web/app bugs follow the standard severity table.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do I need to provide a complete fix to receive the reward?</div>
+        <div class="faq-a">No. You are only required to provide a proof-of-concept demonstrating the vulnerability. You do not need to provide a fix. However, suggesting a fix is appreciated and may be taken into account during evaluation.</div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div style="text-align:center;padding:48px 0;">
+      <h2 style="font-size:28px;font-weight:700;margin-bottom:12px;">Ready to Hunt?</h2>
+      <p class="text-muted" style="margin-bottom:28px;font-size:16px;">Start exploring the Lombard protocol and earn up to $250,000 for critical vulnerabilities.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://bugs.immunefi.com/dashboard/new-submission" target="_blank" rel="noopener noreferrer"
+          style="background:#4F46E5;color:#fff;padding:14px 28px;border-radius:8px;font-size:16px;font-weight:600;">
+          Submit a Bug Report
+        </a>
+        <a href="documentation.html"
+          style="border:1px solid #374151;color:#fff;padding:14px 28px;border-radius:8px;font-size:16px;font-weight:500;">
+          Read Documentation
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:#000;border-top:1px solid #374151;margin-top:0;">
+  <div class="container" style="padding-top:48px;padding-bottom:32px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#4F46E5"/><path d="M8 22L14 10L20 18L24 14" stroke="#A4FEFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="14" r="2.5" fill="#F01580"/></svg>
+          <span style="color:#fff;font-weight:700;font-size:16px;">Lombard Bug Bounty</span>
+        </div>
+        <p style="color:#B5B8BF;font-size:14px;line-height:1.6;">Securing the future of Bitcoin DeFi. Report vulnerabilities, earn rewards, and help protect the Lombard ecosystem.</p>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">Program</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="index.html" style="color:#B5B8BF;font-size:14px;">Overview</a></li>
+          <li><a href="mainnet.html" style="color:#B5B8BF;font-size:14px;">Mainnet Scope</a></li>
+          <li><a href="testnet.html" style="color:#B5B8BF;font-size:14px;">Testnet</a></li>
+          <li><a href="rewards.html" style="color:#67CCCD;font-size:14px;">Rewards</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">Technical</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="documentation.html" style="color:#B5B8BF;font-size:14px;">Documentation</a></li>
+          <li><a href="smart-contracts.html" style="color:#B5B8BF;font-size:14px;">Smart Contracts</a></li>
+          <li><a href="https://github.com/lombard-finance/evm-smart-contracts" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">GitHub ↗</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">Contact</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="https://immunefi.com/bug-bounty/lombard-finance/" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">Immunefi Program ↗</a></li>
+          <li><a href="https://twitter.com/Lombard_Finance" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">Twitter / X ↗</a></li>
+          <li><a href="https://discord.gg/lombard" target="_blank" rel="noopener noreferrer" style="color:#B5B8BF;font-size:14px;">Discord ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid #374151;padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <span style="color:#595959;font-size:13px;">© 2024–2026 Lombard Finance. All rights reserved.</span>
+      <span style="color:#595959;font-size:13px;">Maximum Bounty: <span style="color:#67CCCD;font-weight:600;">$250,000</span></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
